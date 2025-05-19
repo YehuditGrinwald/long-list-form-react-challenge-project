@@ -8,18 +8,15 @@ const StyledIconButton = styled(IconButton)({
     color: '#ba6767',
   },
 });
-
-const TrashIconButton = ({ handleClick }) => {
+interface TrashIconButtonProps {
+  handleClick?: () => void;
+}
+const TrashIconButton: React.FC<TrashIconButtonProps> = ({ handleClick }) => {
   return (
     <StyledIconButton aria-label="delete" size="large">
       <DeleteIcon fontSize="inherit" />
     </StyledIconButton>
   );
-};
-
-// TODO: Implement passed props
-TrashIconButton.defaultProps = {
-  handleClick: () => {},
 };
 
 export default TrashIconButton;

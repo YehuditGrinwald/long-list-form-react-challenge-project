@@ -1,5 +1,6 @@
 import { styled } from '@mui/material/styles';
-import { TextField } from '@mui/material';
+import { TextField, TextFieldProps } from '@mui/material';
+import React from 'react';
 
 const StyledTextField = styled(TextField)({
   boxShadow: 'none',
@@ -8,7 +9,23 @@ const StyledTextField = styled(TextField)({
   borderRadius: '4px',
 });
 
-const InputField = ({ name, value, onChangehandler, error, disabled, placeholder }) => {
+interface InputFieldProps {
+  name?: string;
+  value?: string;
+  onChangehandler?: (name: string, value: string) => void;
+  error?: boolean;
+  disabled?: boolean;
+  placeholder?: string;
+}
+
+const InputField: React.FC<InputFieldProps> = ({
+  name = 'text_field_name',
+  value = '',
+  onChangehandler = () => {},
+  error = false,
+  disabled = false,
+  placeholder = '',
+}) => {
   return (
     <StyledTextField
       name={name}
@@ -26,16 +43,6 @@ const InputField = ({ name, value, onChangehandler, error, disabled, placeholder
       }}
     />
   );
-};
-
-// TODO: Implement passed props
-InputField.defaultProps = {
-  name: 'text_field_name',
-  value: '',
-  onChangehandler: () => {},
-  error: false,
-  disabled: false,
-  placeholder: '',
 };
 
 export default InputField;

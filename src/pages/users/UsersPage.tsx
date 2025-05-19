@@ -1,5 +1,6 @@
+import React from 'react';
 import UsersList from './usersList/UsersList';
-import PrimaryButton from '../../components/PrimaryButton';
+// import PrimaryButton from '../../components/PrimaryButton';
 import styles from './users.module.css';
 
 function UsersPage() {
@@ -8,12 +9,12 @@ function UsersPage() {
       <div className={styles.pageContentContainer}>
         <UsersList />
         <div className={styles.rightButtonContainer}>
-          <PrimaryButton
+          {/* <PrimaryButton
             disabled={false}
             // TODO: Implement onClick handler
           >
             Save
-          </PrimaryButton>
+          </PrimaryButton> */}
         </div>
       </div>
     </div>
