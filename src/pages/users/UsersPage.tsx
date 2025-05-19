@@ -1,7 +1,7 @@
 import React from 'react';
 import UsersList from './usersList/UsersList';
-// import PrimaryButton from '../../components/PrimaryButton';
 import styles from './users.module.css';
+import PrimaryButton from '../../components/PrimaryButton';
 
 function UsersPage() {
   return (
@@ -9,12 +9,15 @@ function UsersPage() {
       <div className={styles.pageContentContainer}>
         <UsersList />
         <div className={styles.rightButtonContainer}>
-          {/* <PrimaryButton
+          <PrimaryButton
             disabled={false}
-            // TODO: Implement onClick handler
+            handleClick={() => {
+              // TODO: Implement save logic here
+              console.log('Save button clicked');
+            }}
           >
             Save
-          </PrimaryButton> */}
+          </PrimaryButton>
         </div>
       </div>
     </div>

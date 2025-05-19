@@ -15,19 +15,22 @@ const StyledButton = styled(Button)({
   },
 });
 
-const PrimaryButton = ({ children, disabled, handleClick }) => {
+interface PrimaryButtonProps {
+  children?: React.ReactNode;
+  disabled?: boolean;
+  handleClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+}
+
+const PrimaryButton: React.FC<PrimaryButtonProps> = ({
+  children,
+  disabled,
+  handleClick,
+}) => {
   return (
     <StyledButton variant="contained" disabled={disabled} onClick={handleClick}>
       {children}
     </StyledButton>
   );
-};
-
-// TODO: Implement passed props
-PrimaryButton.defaultProps = {
-  children: null,
-  disabled: false,
-  handleClick: () => {},
 };
 
 export default PrimaryButton;
