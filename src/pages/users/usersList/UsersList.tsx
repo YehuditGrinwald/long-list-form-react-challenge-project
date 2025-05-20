@@ -1,24 +1,103 @@
-import React, { useContext } from 'react';
-import { Button, Typography } from '@mui/material';
-import { UsersContext } from '../../../context/usersContext';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import { Typography } from '@mui/material';
+import { User } from '../../../context/usersContext';
 import UserRow from '../userRow/UserRow';
 // import AddButton from '../../../components/AddButton';
 import styles from '../users.module.css';
 
-function UsersList() {
-  const context = useContext(UsersContext);
-  if (!context) throw new Error('UsersList must be used within a UsersProvider');
-  const { users } = context?.state;
+interface FieldState {
+  value: string;
+  error: boolean;
+  touched: boolean;
+}
+
+interface RowState {
+  fields: Record<string, FieldState>;
+  isValid: boolean;
+}
+
+interface UserListProps {
+  users: User[];
+  onValidationChange: (
+    hasErrors: boolean,
+    emptyFields: number,
+    invalidFields: number
+  ) => void;
+}
+
+function UsersList({ users, onValidationChange }: UserListProps) {
+  const [rowStates, setRowStates] = useState<Record<string, RowState>>({});
+  console.log('rowStates ', rowStates);
+  const handleRowStateChange = useCallback(
+    (userId: string, fields: Record<string, FieldState>, isValid: boolean) => {
+      setRowStates((prev) => ({
+        ...prev,
+        [userId]: { fields, isValid },
+      }));
+    },
+    []
+  );
+
+  // Memoize error calculations
+  const errorCounts = useMemo(() => {
+    let emptyFieldsCount = 0;
+    let invalidFieldsCount = 0;
+
+    Object.values(rowStates).forEach((rowState) => {
+      Object.values(rowState.fields).forEach((field: FieldState) => {
+        if (field.touched) {
+          if (field.value === '') {
+            emptyFieldsCount++;
+          } else if (field.error) {
+            invalidFieldsCount++;
+          }
+        }
+      });
+    });
+
+    return {
+      emptyFieldsCount,
+      invalidFieldsCount,
+      hasErrors: emptyFieldsCount > 0 || invalidFieldsCount > 0,
+    };
+  }, [rowStates]);
+
+  // Only notify parent when error counts actually change
+  useEffect(() => {
+    onValidationChange(
+      errorCounts.hasErrors,
+      errorCounts.emptyFieldsCount,
+      errorCounts.invalidFieldsCount
+    );
+  }, [errorCounts, onValidationChange]);
+
+  // const handleSave = useCallback(() => {
+  //   const updatedUsers = users.map((user) => {
+  //     const rowState = rowStates[user.id];
+  //     if (!rowState) return user;
+
+  //     return {
+  //       ...user,
+  //       name: rowState.fields.name.value,
+  //       country: rowState.fields.country.value,
+  //       email: rowState.fields.email.value,
+  //       phone: rowState.fields.phone.value,
+  //     };
+  //   });
+
+  //   onSave(updatedUsers);
+  //   setRowStates({}); // Reset states after save
+  // }, [users, rowStates, onSave]);
 
   return (
     <div className={styles.usersList}>
       <div className={styles.usersListHeader}>
-        <Typography variant="h6">Users List</Typography>
+        <Typography variant="h6">Users List ({users.length})</Typography>
         {/* <AddButton /> */}
       </div>
       <div className={styles.usersListContent}>
         {users.map((user) => (
-          <UserRow key={user.id} user={user} />
+          <UserRow key={user.id} user={user} onStateChange={handleRowStateChange} />
         ))}
       </div>
     </div>

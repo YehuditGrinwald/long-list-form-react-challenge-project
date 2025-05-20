@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styles from '../users.module.css';
 import { User } from '../../../context/usersContext';
 // user country must be one of those - for select/autocomplete implementation
@@ -13,7 +13,16 @@ interface FieldState {
   touched: boolean;
 }
 
-const UserRow = ({ user }: { user: User }) => {
+interface UserRowProps {
+  user: User;
+  onStateChange: (
+    userId: string,
+    fields: Record<string, FieldState>,
+    isValid: boolean
+  ) => void;
+}
+
+const UserRow = ({ user, onStateChange }: UserRowProps) => {
   const [fields, setFields] = useState<Record<string, FieldState>>({
     name: { value: user.name, error: false, touched: false },
     country: { value: user.country, error: false, touched: false },
@@ -38,25 +47,37 @@ const UserRow = ({ user }: { user: User }) => {
     }
   };
 
+  const isRowValid = (): boolean => {
+    return Object.values(fields).every((field) => !field.error && field.value !== '');
+  };
+
   const handleFieldChange = (name: string, value: string) => {
-    setFields((prev) => ({
-      ...prev,
+    const newFields = {
+      ...fields,
       [name]: {
         value,
         error: !validateField(name, value),
         touched: true,
       },
-    }));
+    };
+
+    setFields(newFields);
+    // Notify parent directly after state update
+    onStateChange(user.id, newFields, isRowValid());
   };
 
   const handleFieldBlur = (name: string) => {
-    setFields((prev) => ({
-      ...prev,
+    const newFields = {
+      ...fields,
       [name]: {
-        ...prev[name],
+        ...fields[name],
         touched: true,
       },
-    }));
+    };
+
+    setFields(newFields);
+    // Notify parent directly after state update
+    onStateChange(user.id, newFields, isRowValid());
   };
 
   return (
