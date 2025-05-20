@@ -11,7 +11,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  gap: 16px;
 }
 
 .rightButtonContainer {
@@ -50,4 +50,13 @@
 
 .userRowInput {
   flex-basis: 22.5%;
+}
+.summaryContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.errorSummary {
+  color: red;
 }

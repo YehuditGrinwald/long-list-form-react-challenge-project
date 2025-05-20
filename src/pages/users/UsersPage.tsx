@@ -66,19 +66,21 @@ function UsersPage() {
           onUpdateUser={handleUpdateUser}
           onAddUser={handleAddUser}
         />
-        {(validationState.emptyFields > 0 || validationState.invalidFields > 0) && (
-          <div className={styles.errorSummary}>
-            Errors: Empty Fields - {validationState.emptyFields}, Invalid Fields -{' '}
-            {validationState.invalidFields}
+        <div className={styles.summaryContainer}>
+          {(validationState.emptyFields > 0 || validationState.invalidFields > 0) && (
+            <div className={styles.errorSummary}>
+              Errors: Empty Fields - {validationState.emptyFields}, Invalid Fields -{' '}
+              {validationState.invalidFields}
+            </div>
+          )}
+          <div className={styles.rightButtonContainer}>
+            <PrimaryButton
+              disabled={validationState.hasErrors}
+              handleClick={handleSaveClick}
+            >
+              Save
+            </PrimaryButton>
           </div>
-        )}
-        <div className={styles.rightButtonContainer}>
-          <PrimaryButton
-            disabled={validationState.hasErrors}
-            handleClick={handleSaveClick}
-          >
-            Save
-          </PrimaryButton>
         </div>
       </div>
     </div>
