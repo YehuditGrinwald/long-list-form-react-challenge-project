@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import styles from '../users.module.css';
 import { User } from '../../../context/usersContext';
 // user country must be one of those - for select/autocomplete implementation
@@ -22,8 +22,11 @@ interface UserRowProps {
   ) => void;
   onDeleteUser: (userId: string) => void;
 }
-
-const UserRow = ({ user, onStateChange, onDeleteUser }: UserRowProps) => {
+const UserRow = memo(function UserRow({
+  user,
+  onStateChange,
+  onDeleteUser,
+}: UserRowProps) {
   const [fields, setFields] = useState<Record<string, FieldState>>({
     name: { value: user.name, error: false, touched: false },
     country: { value: user.country, error: false, touched: false },
@@ -134,6 +137,6 @@ const UserRow = ({ user, onStateChange, onDeleteUser }: UserRowProps) => {
       </Grid>
     </Grid>
   );
-};
+});
 
 export default UserRow;

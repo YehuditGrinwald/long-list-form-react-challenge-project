@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useState, useCallback, useMemo, useEffect, memo } from 'react';
 import { Typography } from '@mui/material';
 import { User } from '../../../context/usersContext';
 import UserRow from '../userRow/UserRow';
@@ -28,8 +28,7 @@ interface UserListProps {
   onUpdateUser: (userId: string, userData: Partial<User>) => void;
   onAddUser: () => void;
 }
-
-function UsersList({
+const UsersList = memo(function UsersList({
   users,
   onValidationChange,
   onDeleteUser,
@@ -109,6 +108,6 @@ function UsersList({
       </div>
     </div>
   );
-}
+});
 
 export default UsersList;
