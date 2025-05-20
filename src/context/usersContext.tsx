@@ -1,4 +1,11 @@
-import React, { createContext, useReducer, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useMemo,
+  ReactNode,
+  useContext,
+} from 'react';
 import data from '../data/initialUsersData.json';
 
 export interface User {
@@ -9,65 +16,44 @@ export interface User {
   phone: string;
 }
 
-interface UsersState {
+interface UsersContextType {
   users: User[];
   isLoading: boolean;
+  setUsers: (users: User[]) => void;
 }
 
-type UsersAction =
-  | { type: 'LOAD_USERS'; payload: User[] }
-  | { type: 'ADD_USER'; payload: User }
-  | { type: 'EDIT_USER'; payload: User }
-  | { type: 'DELETE_USER'; payload: string } // user id
-  | { type: 'SET_LOADING'; payload: boolean };
-
-function usersReducer(state: UsersState, action: UsersAction): UsersState {
-  switch (action.type) {
-    case 'LOAD_USERS':
-      return { ...state, users: action.payload, isLoading: false };
-    case 'ADD_USER':
-      return { ...state, users: [action.payload, ...state.users] };
-    case 'EDIT_USER':
-      return {
-        ...state,
-        users: state.users.map((u) => (u.id === action.payload.id ? action.payload : u)),
-      };
-    case 'DELETE_USER':
-      return {
-        ...state,
-        users: state.users.filter((u) => u.id !== action.payload),
-      };
-    case 'SET_LOADING':
-      return { ...state, isLoading: action.payload };
-    default:
-      return state;
-  }
-}
-
-interface UsersContextType {
-  state: UsersState;
-  dispatch: React.Dispatch<UsersAction>;
-}
-
-export const UsersContext = createContext<UsersContextType | undefined>(undefined);
-
-const initialState: UsersState = {
+const UsersContext = createContext<UsersContextType | undefined>({
   users: [],
   isLoading: true,
-};
+  setUsers: () => {},
+});
 
 export const UsersProvider = ({ children }: { children: ReactNode }) => {
-  const [state, dispatch] = useReducer(usersReducer, initialState);
+  const [users, setUsers] = useState<User[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    dispatch({ type: 'SET_LOADING', payload: true });
     const t = setTimeout(() => {
-      dispatch({ type: 'LOAD_USERS', payload: data });
+      setUsers(data);
+      setIsLoading(false);
     }, 2000);
     return () => clearTimeout(t);
   }, []);
 
-  return (
-    <UsersContext.Provider value={{ state, dispatch }}>{children}</UsersContext.Provider>
+  const contextValue = useMemo(
+    () => ({ users, setUsers, isLoading }),
+    [users, isLoading]
   );
+
+  return <UsersContext.Provider value={contextValue}>{children}</UsersContext.Provider>;
 };
+// consumer
+export const useUsersContext = () => {
+  const context = useContext(UsersContext);
+  if (!context) {
+    throw new Error('useUsersContext must be used within a UsersProvider');
+  }
+  return context;
+};
+
+export default UsersContext;
