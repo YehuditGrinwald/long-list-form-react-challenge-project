@@ -41,7 +41,6 @@ function UsersPage() {
   }, []);
 
   const handleDeleteUser = useCallback((userId: string) => {
-    debugger;
     dispatch(userActions.deleteUser(userId));
   }, []);
 
@@ -60,7 +59,6 @@ function UsersPage() {
   return (
     <div className={styles.pageRoot}>
       <div className={styles.pageContentContainer}>
-        {/* <UsersList users={users} onValidationChange={handleValidationChange} /> */}
         <UsersList
           users={localUsers}
           onValidationChange={handleValidationChange}

@@ -94,7 +94,7 @@ const UsersList = memo(function UsersList({
     <div className={styles.usersList}>
       <div className={styles.usersListHeader}>
         <Typography variant="h6">Users List ({users.length})</Typography>
-        {/* <AddButton handleClick={onAddUser} /> */}
+        <AddButton handleClick={onAddUser} />
       </div>
       <div className={styles.usersListContent}>
         {users.map((user) => (

@@ -14,7 +14,7 @@ export interface UserAction {
 export function usersReducer(state: User[], action: UserAction): User[] {
   switch (action.type) {
     case 'ADD_USER':
-      return [...state, action.payload.user as User];
+      return [action.payload.user as User, ...state];
 
     case 'DELETE_USER':
       return state.filter((user) => user.id !== action.payload.userId);
