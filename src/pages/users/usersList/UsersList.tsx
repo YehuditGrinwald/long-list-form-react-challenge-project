@@ -57,6 +57,18 @@ const UsersList = memo(function UsersList({
     [onUpdateUser]
   );
 
+  const handleDeleteUser = useCallback(
+    (userId: string) => {
+      setRowStates((prev) => {
+        const newState = { ...prev };
+        delete newState[userId];
+        return newState;
+      });
+      onDeleteUser(userId);
+    },
+    [onDeleteUser]
+  );
+
   // Memoize error calculations
   const errorCounts = useMemo(() => {
     let emptyFieldsCount = 0;
@@ -102,7 +114,7 @@ const UsersList = memo(function UsersList({
             key={user.id}
             user={user}
             onStateChange={handleRowStateChange}
-            onDeleteUser={onDeleteUser}
+            onDeleteUser={handleDeleteUser}
           />
         ))}
       </div>
