@@ -4,6 +4,7 @@ import { User } from '../../../context/usersContext';
 import UserRow from '../userRow/UserRow';
 // import AddButton from '../../../components/AddButton';
 import styles from '../users.module.css';
+import AddButton from '../../../components/AddButton';
 
 interface FieldState {
   value: string;
@@ -23,9 +24,18 @@ interface UserListProps {
     emptyFields: number,
     invalidFields: number
   ) => void;
+  onDeleteUser: (userId: string) => void;
+  onUpdateUser: (userId: string, userData: Partial<User>) => void;
+  onAddUser: () => void;
 }
 
-function UsersList({ users, onValidationChange }: UserListProps) {
+function UsersList({
+  users,
+  onValidationChange,
+  onDeleteUser,
+  onUpdateUser,
+  onAddUser,
+}: UserListProps) {
   const [rowStates, setRowStates] = useState<Record<string, RowState>>({});
   console.log('rowStates ', rowStates);
 
@@ -35,8 +45,17 @@ function UsersList({ users, onValidationChange }: UserListProps) {
         ...prev,
         [userId]: { fields, isValid },
       }));
+
+      const userData: Partial<User> = {
+        name: fields.name?.value,
+        email: fields.email?.value,
+        phone: fields.phone?.value,
+        country: fields.country?.value,
+      };
+
+      onUpdateUser(userId, userData);
     },
-    []
+    [onUpdateUser]
   );
 
   // Memoize error calculations
@@ -76,11 +95,16 @@ function UsersList({ users, onValidationChange }: UserListProps) {
     <div className={styles.usersList}>
       <div className={styles.usersListHeader}>
         <Typography variant="h6">Users List ({users.length})</Typography>
-        {/* <AddButton /> */}
+        {/* <AddButton handleClick={onAddUser} /> */}
       </div>
       <div className={styles.usersListContent}>
         {users.map((user) => (
-          <UserRow key={user.id} user={user} onStateChange={handleRowStateChange} />
+          <UserRow
+            key={user.id}
+            user={user}
+            onStateChange={handleRowStateChange}
+            onDeleteUser={onDeleteUser}
+          />
         ))}
       </div>
     </div>

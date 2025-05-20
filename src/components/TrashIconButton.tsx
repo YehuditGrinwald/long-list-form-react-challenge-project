@@ -13,7 +13,7 @@ interface TrashIconButtonProps {
 }
 const TrashIconButton: React.FC<TrashIconButtonProps> = ({ handleClick }) => {
   return (
-    <StyledIconButton aria-label="delete" size="large">
+    <StyledIconButton aria-label="delete" size="large" onClick={handleClick}>
       <DeleteIcon fontSize="inherit" />
     </StyledIconButton>
   );
