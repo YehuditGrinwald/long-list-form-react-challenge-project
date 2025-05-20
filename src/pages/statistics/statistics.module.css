@@ -4,3 +4,23 @@
   padding: 30px;
   height: calc(100vh - 150px);
 }
+
+.statsContainer {
+  max-width: 600px;
+  width: 100%;
+}
+
+.statsList {
+  list-style: none;
+  padding: 0;
+}
+
+.statsListItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 5px 0;
+  background-color: blue;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
