@@ -28,6 +28,7 @@ interface UserListProps {
 function UsersList({ users, onValidationChange }: UserListProps) {
   const [rowStates, setRowStates] = useState<Record<string, RowState>>({});
   console.log('rowStates ', rowStates);
+
   const handleRowStateChange = useCallback(
     (userId: string, fields: Record<string, FieldState>, isValid: boolean) => {
       setRowStates((prev) => ({
@@ -70,24 +71,6 @@ function UsersList({ users, onValidationChange }: UserListProps) {
       errorCounts.invalidFieldsCount
     );
   }, [errorCounts, onValidationChange]);
-
-  // const handleSave = useCallback(() => {
-  //   const updatedUsers = users.map((user) => {
-  //     const rowState = rowStates[user.id];
-  //     if (!rowState) return user;
-
-  //     return {
-  //       ...user,
-  //       name: rowState.fields.name.value,
-  //       country: rowState.fields.country.value,
-  //       email: rowState.fields.email.value,
-  //       phone: rowState.fields.phone.value,
-  //     };
-  //   });
-
-  //   onSave(updatedUsers);
-  //   setRowStates({}); // Reset states after save
-  // }, [users, rowStates, onSave]);
 
   return (
     <div className={styles.usersList}>
