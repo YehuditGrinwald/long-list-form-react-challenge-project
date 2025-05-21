@@ -14,7 +14,9 @@ export function usersReducer(state: User[], action: UserAction): User[] {
       );
 
     case 'INIT_USERS':
-      return action.payload.users || [];
+      return Array.isArray(action.payload.users) && action.payload.users.length > 0
+        ? action.payload.users
+        : state;
 
     default:
       return state;
