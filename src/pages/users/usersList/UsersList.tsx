@@ -38,7 +38,6 @@ const UsersList = memo(function UsersList({
   isLoading,
 }: UserListProps) {
   const [rowStates, setRowStates] = useState<Record<string, RowState>>({});
-  console.log('rowStates ', rowStates);
 
   const handleRowStateChange = useCallback(
     (userId: string, fields: Record<string, FieldState>, isValid: boolean) => {
@@ -75,17 +74,19 @@ const UsersList = memo(function UsersList({
     let emptyFieldsCount = 0;
     let invalidFieldsCount = 0;
 
-    Object.values(rowStates).forEach((rowState) => {
-      Object.values(rowState.fields).forEach((field: FieldState) => {
-        if (field.touched) {
-          if (field.value === '') {
-            emptyFieldsCount++;
-          } else if (field.error) {
-            invalidFieldsCount++;
-          }
+    for (const [, rowState] of Object.entries(rowStates)) {
+      const fields = rowState.fields;
+
+      for (const field of Object.values(fields)) {
+        if (!field.touched) continue;
+
+        if (field.value === '') {
+          emptyFieldsCount++;
+        } else if (field.error) {
+          invalidFieldsCount++;
         }
-      });
-    });
+      }
+    }
 
     return {
       emptyFieldsCount,
