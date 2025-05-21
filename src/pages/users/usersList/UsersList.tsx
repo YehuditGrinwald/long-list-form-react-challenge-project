@@ -60,8 +60,7 @@ const UsersList = memo(function UsersList({
   const handleDeleteUser = useCallback(
     (userId: string) => {
       setRowStates((prev) => {
-        const newState = { ...prev };
-        delete newState[userId];
+        const { [userId]: removed, ...newState } = prev;
         return newState;
       });
       onDeleteUser(userId);
