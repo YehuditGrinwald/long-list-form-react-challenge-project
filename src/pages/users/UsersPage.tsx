@@ -65,6 +65,7 @@ function UsersPage() {
           onDeleteUser={handleDeleteUser}
           onUpdateUser={handleUpdateUser}
           onAddUser={handleAddUser}
+          isLoading={isLoading}
         />
         <div className={styles.summaryContainer}>
           {(validationState.emptyFields > 0 || validationState.invalidFields > 0) && (

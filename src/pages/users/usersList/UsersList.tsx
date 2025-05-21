@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo, useEffect, memo } from 'react';
-import { Typography } from '@mui/material';
+import { Typography, CircularProgress } from '@mui/material';
 import { User } from '../../../context/usersContext';
 import UserRow from '../userRow/UserRow';
 // import AddButton from '../../../components/AddButton';
@@ -27,6 +27,7 @@ interface UserListProps {
   onDeleteUser: (userId: string) => void;
   onUpdateUser: (userId: string, userData: Partial<User>) => void;
   onAddUser: () => void;
+  isLoading: boolean;
 }
 const UsersList = memo(function UsersList({
   users,
@@ -34,6 +35,7 @@ const UsersList = memo(function UsersList({
   onDeleteUser,
   onUpdateUser,
   onAddUser,
+  isLoading,
 }: UserListProps) {
   const [rowStates, setRowStates] = useState<Record<string, RowState>>({});
   console.log('rowStates ', rowStates);
@@ -108,14 +110,20 @@ const UsersList = memo(function UsersList({
         <AddButton handleClick={onAddUser} />
       </div>
       <div className={styles.usersListContent}>
-        {users.map((user) => (
-          <UserRow
-            key={user.id}
-            user={user}
-            onStateChange={handleRowStateChange}
-            onDeleteUser={handleDeleteUser}
-          />
-        ))}
+        {isLoading || users.length === 0 ? (
+          <div className={styles.contentLoading}>
+            <CircularProgress />
+          </div>
+        ) : (
+          users.map((user) => (
+            <UserRow
+              key={user.id}
+              user={user}
+              onStateChange={handleRowStateChange}
+              onDeleteUser={handleDeleteUser}
+            />
+          ))
+        )}
       </div>
     </div>
   );

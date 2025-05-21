@@ -40,7 +40,12 @@
   height: calc(100% - 96px);
   padding: 20px 25px;
 }
-
+.contentLoading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
 .userRow {
   margin-block: 1px 6px;
   flex-wrap: nowrap;
