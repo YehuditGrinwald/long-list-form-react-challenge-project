@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useMemo, useEffect, memo } from 'react';
 import { Typography, CircularProgress } from '@mui/material';
+import { FixedSizeList, ListChildComponentProps } from 'react-window';
 import UserRow from '../userRow/UserRow';
 import styles from '../users.module.css';
 import AddButton from '../../../components/AddButton';
@@ -28,6 +29,24 @@ interface UserListProps {
   onAddUser: () => void;
   isLoading: boolean;
 }
+
+const VirtualRow = ({ data, index, style }: ListChildComponentProps) => {
+  const { users, handleRowStateChange, handleDeleteUser } = data;
+  const user = users[index];
+
+  return (
+    <div style={style}>
+      <UserRow
+        key={user.id}
+        user={user}
+        onStateChange={handleRowStateChange}
+        onDeleteUser={handleDeleteUser}
+        isFirstRow={index === 0}
+      />
+    </div>
+  );
+};
+
 const UsersList = memo(function UsersList({
   users,
   onValidationChange,
@@ -103,6 +122,15 @@ const UsersList = memo(function UsersList({
     );
   }, [errorCounts, onValidationChange]);
 
+  const itemData = useMemo(
+    () => ({
+      users,
+      handleRowStateChange,
+      handleDeleteUser,
+    }),
+    [users, handleRowStateChange, handleDeleteUser]
+  );
+
   return (
     <div className={styles.usersList}>
       <div className={styles.usersListHeader}>
@@ -115,15 +143,16 @@ const UsersList = memo(function UsersList({
             <CircularProgress />
           </div>
         ) : (
-          users.map((user, index) => (
-            <UserRow
-              key={user.id}
-              user={user}
-              onStateChange={handleRowStateChange}
-              onDeleteUser={handleDeleteUser}
-              isFirstRow={index === 0}
-            />
-          ))
+          <FixedSizeList
+            height={400}
+            width="100%"
+            itemSize={70}
+            itemCount={users.length}
+            itemData={itemData}
+            overscanCount={5}
+          >
+            {VirtualRow}
+          </FixedSizeList>
         )}
       </div>
     </div>
