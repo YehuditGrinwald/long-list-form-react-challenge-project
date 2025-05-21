@@ -1,15 +1,4 @@
-import { User } from '../../context/usersContext';
-
-export type UserActionType = 'ADD_USER' | 'DELETE_USER' | 'UPDATE_USER' | 'INIT_USERS';
-
-export interface UserAction {
-  type: UserActionType;
-  payload: {
-    userId?: string;
-    user?: Partial<User>;
-    users?: User[];
-  };
-}
+import { User, UserAction } from '../../types/usersTypes';
 
 export function usersReducer(state: User[], action: UserAction): User[] {
   switch (action.type) {

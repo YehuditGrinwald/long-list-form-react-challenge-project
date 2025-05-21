@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo, useEffect, memo } from 'react';
 import { Typography, CircularProgress } from '@mui/material';
-import { User } from '../../../context/usersContext';
 import UserRow from '../userRow/UserRow';
+import { User } from '../../../types/usersTypes';
 // import AddButton from '../../../components/AddButton';
 import styles from '../users.module.css';
 import AddButton from '../../../components/AddButton';

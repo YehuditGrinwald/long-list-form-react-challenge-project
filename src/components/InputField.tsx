@@ -12,7 +12,7 @@ const StyledTextField = styled(TextField)({
 interface InputFieldProps {
   name?: string;
   value?: string;
-  onChangehandler?: (name: string, value: string) => void;
+  onChangeHandler?: (name: string, value: string) => void;
   onBlur?: () => void;
   error?: boolean;
   disabled?: boolean;
@@ -22,7 +22,7 @@ interface InputFieldProps {
 const InputField: React.FC<InputFieldProps> = ({
   name = 'text_field_name',
   value = '',
-  onChangehandler = () => {},
+  onChangeHandler = () => {},
   onBlur = () => {},
   error = false,
   disabled = false,
@@ -32,7 +32,7 @@ const InputField: React.FC<InputFieldProps> = ({
     <StyledTextField
       name={name}
       value={value}
-      onChange={(e) => onChangehandler(e.target.name, e.target.value)}
+      onChange={(e) => onChangeHandler(e.target.name, e.target.value)}
       onBlur={onBlur}
       error={error}
       disabled={disabled}

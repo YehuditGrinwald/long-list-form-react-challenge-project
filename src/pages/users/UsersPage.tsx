@@ -2,10 +2,10 @@ import React, { useReducer, useCallback, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { usersReducer, userActions } from './usersReducer';
 import UsersList from './usersList/UsersList';
-import { User, useUsersContext } from '../../context/usersContext';
+import { useUsersContext } from '../../context/usersContext';
 import PrimaryButton from '../../components/PrimaryButton';
 import styles from './users.module.css';
-
+import { User } from '../../types/usersTypes';
 function UsersPage() {
   const { users, isLoading, setUsers } = useUsersContext();
   const [localUsers, dispatch] = useReducer(usersReducer, []);

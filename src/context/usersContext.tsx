@@ -7,14 +7,7 @@ import React, {
   useContext,
 } from 'react';
 import data from '../data/initialUsersData.json';
-
-export interface User {
-  id: string;
-  name: string;
-  country: string;
-  email: string;
-  phone: string;
-}
+import { User } from '../types/usersTypes';
 
 interface UsersContextType {
   users: User[];

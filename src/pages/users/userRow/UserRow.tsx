@@ -1,12 +1,11 @@
 import { Grid } from '@mui/material';
 import { memo, useState } from 'react';
 import styles from '../users.module.css';
-import { User } from '../../../context/usersContext';
 // user country must be one of those - for select/autocomplete implementation
 import countryOptions from '../../../data/countries.json';
 import InputField from '../../../components/InputField';
 import TrashIconButton from '../../../components/TrashIconButton';
-
+import { User } from '../../../types/usersTypes';
 interface FieldState {
   value: string;
   error: boolean;
@@ -91,7 +90,7 @@ const UserRow = memo(function UserRow({
           name="name"
           value={fields.name.value}
           placeholder="Name"
-          onChangehandler={handleFieldChange}
+          onChangeHandler={handleFieldChange}
           error={fields.name.touched && fields.name.error}
           onBlur={() => handleFieldBlur('name')}
         />
@@ -102,7 +101,7 @@ const UserRow = memo(function UserRow({
           name="country"
           value={fields.country.value}
           placeholder="Country"
-          onChangehandler={handleFieldChange}
+          onChangeHandler={handleFieldChange}
           error={fields.country.touched && fields.country.error}
           onBlur={() => handleFieldBlur('country')}
         />
@@ -112,7 +111,7 @@ const UserRow = memo(function UserRow({
           name="email"
           value={fields.email.value}
           placeholder="Email"
-          onChangehandler={handleFieldChange}
+          onChangeHandler={handleFieldChange}
           error={fields.email.touched && fields.email.error}
           onBlur={() => handleFieldBlur('email')}
         />
@@ -122,7 +121,7 @@ const UserRow = memo(function UserRow({
           name="phone"
           value={fields.phone.value}
           placeholder="Phone"
-          onChangehandler={handleFieldChange}
+          onChangeHandler={handleFieldChange}
           error={fields.phone.touched && fields.phone.error}
           onBlur={() => handleFieldBlur('phone')}
         />
