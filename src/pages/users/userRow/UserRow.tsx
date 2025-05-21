@@ -129,7 +129,6 @@ const UserRow = memo(function UserRow({
       <Grid item>
         <TrashIconButton
           handleClick={() => {
-            console.log('handleClick');
             onDeleteUser(user.id);
           }}
         />

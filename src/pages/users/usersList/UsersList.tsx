@@ -1,10 +1,9 @@
 import React, { useState, useCallback, useMemo, useEffect, memo } from 'react';
 import { Typography, CircularProgress } from '@mui/material';
 import UserRow from '../userRow/UserRow';
-import { User } from '../../../types/usersTypes';
-// import AddButton from '../../../components/AddButton';
 import styles from '../users.module.css';
 import AddButton from '../../../components/AddButton';
+import { User } from '../../../types/usersTypes';
 
 interface FieldState {
   value: string;
