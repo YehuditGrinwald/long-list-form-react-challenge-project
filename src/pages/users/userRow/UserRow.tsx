@@ -20,11 +20,13 @@ interface UserRowProps {
     isValid: boolean
   ) => void;
   onDeleteUser: (userId: string) => void;
+  isFirstRow: boolean;
 }
 const UserRow = memo(function UserRow({
   user,
   onStateChange,
   onDeleteUser,
+  isFirstRow,
 }: UserRowProps) {
   const [fields, setFields] = useState<Record<string, FieldState>>({
     name: { value: user.name, error: false, touched: false },
@@ -93,6 +95,7 @@ const UserRow = memo(function UserRow({
           onChangeHandler={handleFieldChange}
           error={fields.name.touched && fields.name.error}
           onBlur={() => handleFieldBlur('name')}
+          autofocus={isFirstRow}
         />
       </Grid>
       <Grid item className={styles.userRowInput}>

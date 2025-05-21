@@ -115,12 +115,13 @@ const UsersList = memo(function UsersList({
             <CircularProgress />
           </div>
         ) : (
-          users.map((user) => (
+          users.map((user, index) => (
             <UserRow
               key={user.id}
               user={user}
               onStateChange={handleRowStateChange}
               onDeleteUser={handleDeleteUser}
+              isFirstRow={index === 0}
             />
           ))
         )}

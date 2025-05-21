@@ -17,6 +17,7 @@ interface InputFieldProps {
   error?: boolean;
   disabled?: boolean;
   placeholder?: string;
+  autofocus?: boolean;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -27,6 +28,7 @@ const InputField: React.FC<InputFieldProps> = ({
   error = false,
   disabled = false,
   placeholder = '',
+  autofocus = false,
 }) => {
   return (
     <StyledTextField
@@ -44,6 +46,7 @@ const InputField: React.FC<InputFieldProps> = ({
       inputProps={{
         autoComplete: 'off',
       }}
+      autoFocus={autofocus}
     />
   );
 };
