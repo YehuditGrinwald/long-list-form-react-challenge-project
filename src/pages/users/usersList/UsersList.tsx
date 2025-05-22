@@ -29,6 +29,11 @@ interface UserListProps {
   onAddUser: () => void;
   isLoading: boolean;
 }
+const LIST_DIMENSIONS = {
+  HEIGHT: 400,
+  ITEM_SIZE: 70,
+  OVERSCAN_COUNT: 5,
+} as const;
 
 const VirtualRow = ({ data, index, style }: ListChildComponentProps) => {
   const { users, handleRowStateChange, handleDeleteUser } = data;
@@ -144,12 +149,12 @@ const UsersList = memo(function UsersList({
           </div>
         ) : (
           <FixedSizeList
-            height={400}
+            height={LIST_DIMENSIONS.HEIGHT}
             width="100%"
-            itemSize={70}
+            itemSize={LIST_DIMENSIONS.ITEM_SIZE}
             itemCount={users.length}
             itemData={itemData}
-            overscanCount={5}
+            overscanCount={LIST_DIMENSIONS.OVERSCAN_COUNT}
           >
             {VirtualRow}
           </FixedSizeList>
